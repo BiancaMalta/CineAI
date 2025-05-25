@@ -95,20 +95,19 @@ export class AvaliacoesComponent {
 CarregarFilmes() {
   if (!this.idUser) return;
 
-  this.movieService.get_preference(this.idUser).subscribe((preferencias: PreferenciaFilme[]) => {
-    const filmesIds: number[] = preferencias.map(p => p.filme_id);
-    console.log('Preferências recebidas:', preferencias);
+  this.movieService.get_avaliacoes_usuario(Number(this.idUser)).subscribe((avaliacoes) => {
+    console.log('Avaliações recebidas:', avaliacoes);
 
-    if (!filmesIds.length) {
+    if (!avaliacoes.length) {
       this.filmesAvaliados = [];
       return;
     }
 
-    const request: Observable<Filme>[] = filmesIds.map((id: number) =>
-      this.movieService.get_film_by_id(id.toString())
+    const request: Observable<Filme>[] = avaliacoes.map((avaliacao: any) =>
+      this.movieService.get_film_by_id(avaliacao.filme_id.toString())
     );
 
-    forkJoin<Filme[]>(request).subscribe((filmes: Filme[]) => {
+    forkJoin(request).subscribe((filmes: Filme[]) => {
       this.filmesAvaliados = filmes;
       this.atualizarMeusDados();
     });
