@@ -76,4 +76,9 @@ export class ApiService {
     return this.http.post<any>(`https://cineai-njbu.onrender.com/movies/${filme_id}/avaliar`, body);
   }
 
+  // buscar todas as avaliações de um usuário
+  get_avaliacoes_usuario(user_id: number): Observable<any> {
+    return this.http.get<any>(`https://cineai-njbu.onrender.com/usuarios/${user_id}/avaliacoes`);
+  }
+  
 }
